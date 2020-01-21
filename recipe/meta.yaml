@@ -1,5 +1,4 @@
 {% set version = "1.1.20" %}
-
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -8,33 +7,33 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: IDPmisc_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/IDPmisc_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/IDPmisc/IDPmisc_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/IDPmisc_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/IDPmisc/IDPmisc_{{ version }}.tar.gz
   sha256: bcb9cd7b8097e5089d1936286ef310ac2030ea7791350df706382ba470afc67f
 
 build:
   merge_build_host: True  # [win]
   number: 0
-  skip: true  # [win32]
-
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
+    - {{ compiler('c') }}              # [not win]
+    - {{ compiler('m2w64_c') }}        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
-    - r-lattice >=0.19_26
-
+    - r-lattice
   run:
     - r-base
-    - r-lattice >=0.19_26
+    - r-lattice
 
 test:
   commands:
@@ -54,12 +53,9 @@ about:
     useful in spectroscopy and analyses of environmental data: robust baseline fitting,
     finding peaks in spectra.
   license_family: GPL3
+  license_file:
+    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
 
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - dpryan79
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
