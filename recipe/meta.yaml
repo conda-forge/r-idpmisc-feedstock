@@ -28,21 +28,23 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
     - r-base
     - r-lattice
   run:
     - r-base
+    - {{ native }}gcc-libs         # [win]
     - r-lattice
 
 test:
   commands:
-    - $R -e "library('IDPmisc')"  # [not win]
+    - $R -e "library('IDPmisc')"           # [not win]
     - "\"%R%\" -e \"library('IDPmisc')\""  # [win]
 
 about:
   home: https://CRAN.R-project.org/package=IDPmisc
-  license: GPL (>= 3)
+  license: GPL-3.0-or-later
   summary: |
     The IDPmisc package contains different high-level graphics functions for displaying
     large datasets, displaying circular data in a very flexible way, finding local maxima,
@@ -54,7 +56,7 @@ about:
     finding peaks in spectra.
   license_family: GPL3
   license_file:
-    - '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'
+    - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
 
 extra:
   recipe-maintainers:
