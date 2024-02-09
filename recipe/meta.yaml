@@ -1,4 +1,4 @@
-{% set version = "1.1.20" %}
+{% set version = "1.1.21" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,11 +10,11 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/IDPmisc_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/IDPmisc/IDPmisc_{{ version }}.tar.gz
-  sha256: bcb9cd7b8097e5089d1936286ef310ac2030ea7791350df706382ba470afc67f
+  sha256: 478b95ae7e73df78e0728d37281b9af6b4f152a8d54bf9811121d32722f9088c
 
 build:
-  merge_build_host: True  # [win]
-  number: 3
+  merge_build_host: true  # [win]
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
